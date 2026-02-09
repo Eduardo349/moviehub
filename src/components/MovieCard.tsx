@@ -1,40 +1,37 @@
-import Image from "next/image";
+import Link from "next/link";
 
-type MovieCardProps = {
+interface Props {
   id: number;
   title: string;
   posterPath: string;
   rating: number;
-};
+}
 
 export default function MovieCard({
+  id,
   title,
   posterPath,
   rating,
-}: MovieCardProps) {
-  const imageUrl = posterPath
-    ? `${process.env.NEXT_PUBLIC_TMDB_IMAGE_URL}${posterPath}`
-    : "/no-image.png";
-
+}: Props) {
   return (
-    <div className="bg-zinc-900 rounded-lg overflow-hidden hover:scale-105 transition-transform">
-      <Image
-        src={imageUrl}
-        alt={title}
-        width={500}
-        height={750}
-        className="w-full h-auto"
-      />
+    <Link href={`/movie/${id}`}>
+      <div className="group cursor-pointer">
+        <div className="overflow-hidden rounded-xl">
+          <img
+            src={`https://image.tmdb.org/t/p/w500${posterPath}`}
+            alt={title}
+            className="group-hover:scale-110 transition duration-300"
+          />
+        </div>
 
-      <div className="p-3">
-        <h2 className="font-semibold text-sm mb-1 line-clamp-2">
+        <h3 className="mt-2 text-sm font-semibold truncate">
           {title}
-        </h2>
+        </h3>
 
-        <p className="text-zinc-400 text-sm">
+        <p className="text-xs text-gray-400">
           ⭐ {rating.toFixed(1)}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
