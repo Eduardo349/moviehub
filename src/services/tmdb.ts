@@ -1,21 +1,19 @@
 const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL;
-const TOKEN = process.env.NEXT_PUBLIC_TMDB_BEARER;
 
-if (!BASE_URL || !TOKEN) {
-  throw new Error("TMDB não configurado corretamente");
+
+
+if (!API_KEY) {
+  console.warn("⚠️ TMDB API KEY não configurada");
 }
-
-const headers = {
-  Authorization: `Bearer ${TOKEN}`,
-  "Content-Type": "application/json",
-};
 
 export async function getPopularMovies() {
   const response = await fetch(
     `${BASE_URL}/movie/popular?language=pt-BR`,
     {
-      headers,
+      headers: {
+        "Content-Type": "application/json",
+      },
       cache: "no-store",
     }
   );
