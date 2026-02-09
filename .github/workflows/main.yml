@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD MovieHub
 
 on:
   push:
@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout do repositório
+      - name: ⬇️ Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: 🟢 Configurar Node.js
+      - name: ⚙️ Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -27,7 +27,7 @@ jobs:
         run: npm run lint
 
       - name: 🧪 Rodar testes
-        run: npm run test
+        run: npm run test --if-present
 
       - name: 🏗️ Build da aplicação
         run: npm run build
