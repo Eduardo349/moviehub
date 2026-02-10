@@ -2,9 +2,9 @@ name: CI/CD MovieHub
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   pipeline:
@@ -23,6 +23,8 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm ci
 
+      - name: 🔐 Set TMDB Access Token
+        run: echo "TMDB_ACCESS_TOKEN=${{ secrets.TMDB_ACCESS_TOKEN }}" >> $GITHUB_ENV
 
       - name: 🧪 Rodar testes
         run: npm run test --if-present
