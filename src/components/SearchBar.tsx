@@ -1,30 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import type React from "react";
 
 type Props = {
-  onSearch: (query: string) => void;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: () => void;
 };
 
-export default function SearchBar({ onSearch }: Props) {
-  const [query, setQuery] = useState("");
-
+export default function SearchBar({ value, onChange, onSearch }: Props) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!query.trim()) return;
-    onSearch(query);
+    onSearch();
   }
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
       <input
         type="text"
-        placeholder="Buscar filme..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="flex-1 p-2 rounded bg-zinc-800 text-white outline-none"
+        value={value}
+        onChange={onChange}
+        placeholder="Digite o nome do filme..."
+        className="flex-1 px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 focus:border-blue-500 outline-none"
       />
-      <button className="px-4 py-2 bg-red-600 rounded text-white">
+      <button
+        type="submit"
+        className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-semibold"
+      >
         Buscar
       </button>
     </form>

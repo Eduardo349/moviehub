@@ -1,41 +1,38 @@
-const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL;
+const ACCESS_TOKEN = process.env.TMDB_ACCESS_TOKEN;
 
-export async function getPopularMovies() {
-  if (!API_KEY || !BASE_URL) {
-    return { results: [] };
+const BASE_URL = "https://api.themoviedb.org/3";
+
+async function fetchFromTMDB(endpoint: string) {
+  if (!ACCESS_TOKEN) {
+    throw new Error("TMDB_ACCESS_TOKEN is not defined");
   }
 
-  const res = await fetch(
-    `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=pt-BR`,
-    { cache: "no-store" }
-  );
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    console.error("TMDB error:", await res.text());
+    throw new Error("Failed to fetch from TMDB");
+  }
 
   return res.json();
+}
+
+export async function getPopularMovies() {
+  return fetchFromTMDB("/movie/popular?language=pt-BR");
 }
 
 export async function getMovieById(id: string) {
-  if (!API_KEY || !BASE_URL) {
-    return null;
-  }
-
-  const res = await fetch(
-    `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=pt-BR`,
-    { cache: "no-store" }
-  );
-
-  return res.json();
+  return fetchFromTMDB(`/movie/${id}?language=pt-BR`);
 }
 
 export async function searchMovies(query: string) {
-  if (!API_KEY || !BASE_URL) {
-    return { results: [] };
-  }
-
-  const res = await fetch(
-    `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}&language=pt-BR`,
-    { cache: "no-store" }
+  return fetchFromTMDB(
+    `/search/movie?query=${encodeURIComponent(query)}&language=pt-BR`
   );
-
-  return res.json();
 }

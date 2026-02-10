@@ -1,24 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { searchMovies } from "@/services/tmdb";
 import MovieCard from "@/components/MovieCard";
 import SearchBar from "@/components/SearchBar";
 
 export default function SearchPage() {
   const [movies, setMovies] = useState<any[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [query, setQuery] = useState("");
 
-  async function handleSearch(query: string) {
-    if (!query) {
-      setMovies([]);
-      setHasSearched(false);
-      return;
-    }
+  async function handleSearch(searchQuery: string) {
+    if (!searchQuery.trim()) return;
 
-    const data = await searchMovies(query);
-    setMovies(data.results);
     setHasSearched(true);
+
+    const res = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+    const data = await res.json();
+
+    setMovies(data.results || []);
   }
 
   return (
@@ -27,7 +26,11 @@ export default function SearchPage() {
         🔎 Buscar Filmes
       </h1>
 
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onSearch={() => handleSearch(query)}
+      />
 
       {!hasSearched && (
         <p className="mt-6 text-gray-400">
@@ -41,14 +44,16 @@ export default function SearchPage() {
         </p>
       )}
 
-      <ul className="
-  grid 
-  grid-cols-2 
-  sm:grid-cols-3 
-  md:grid-cols-4 
-  lg:grid-cols-5 
-  gap-6
-">
+      <ul
+        className="
+          grid 
+          grid-cols-2 
+          sm:grid-cols-3 
+          md:grid-cols-4 
+          lg:grid-cols-5 
+          gap-6
+        "
+      >
         {movies.map((movie: any) => (
           <li key={movie.id}>
             <MovieCard

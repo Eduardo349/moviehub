@@ -4,24 +4,25 @@ MovieHub é uma aplicação web desenvolvida com Next.js que permite visualizar 
 O projeto foi criado com foco em boas práticas de desenvolvimento moderno, incluindo CI/CD com GitHub Actions e deploy automático no Vercel.
 
 
-🚀 Tecnologias Utilizadas:
-
-Next.js
+🛠️ Tecnologias Utilizadas
+Next.js 16 (App Router + Turbopack)
 React
 TypeScript
+Tailwind CSS
 TMDB API
-GitHub Actions (CI/CD)
-Vercel (Deploy)
+Vercel
+GitHub Actions
 
 
-📦 Funcionalidades:
-
-Listagem de filmes
-Página de detalhes de cada filme
-Consumo de API externa (TMDB)
-Renderização dinâmica com rotas do Next.js
-Build e deploy automáticos
-
+🚀 Funcionalidades
+✅ Listagem de filmes populares
+✅ Página de detalhes do filme
+✅ Pesquisa de filmes por nome
+✅ Integração com TMDB
+✅ Proteção de token sensível (server-side)
+✅ Deploy automático com Vercel
+✅ CI/CD com GitHub Actions
+✅ Interface responsiva com Tailwind CSS
 
 ⚙️ Pré-requisitos:
 
@@ -34,15 +35,18 @@ Uma conta no Vercel
 Uma API Key do TMDB
 
 
-🔑 Variáveis de Ambiente:
+🔐 Variáveis de Ambiente
 
-Crie um arquivo .env.local na raiz do projeto com a seguinte variável:
-Env
+Este projeto utiliza variáveis de ambiente para proteger o token da API do TMDB.
 
-TMDB_API_KEY=SUA_API_KEY_AQUI
+📌 Local (.env.local)
 
-⚠️ Essa variável não deve ser versionada.
-Ela é configurada no deploy via Secrets.
+Crie um arquivo .env.local na raiz do projeto:
+
+TMDB_ACCESS_TOKEN=SEU_TOKEN_DO_TMDB
+
+⚠️ Use o API Read Access Token (v4) do TMDB
+⚠️ Não utilize NEXT_PUBLIC_ para esse token
 
 
 ▶️ Como rodar o projeto localmente:
@@ -107,6 +111,21 @@ A aplicação está publicada no Vercel:
 
 🔗 URL do projeto:
 👉 https://moviehub-azure.vercel.app.
+
+
+🌐 Produção (Vercel)
+Na Vercel:
+Acesse Settings → Environment Variables
+Adicione:
+Name
+Value
+TMDB_ACCESS_TOKEN
+Seu token
+Marque:
+Production
+Preview
+Development
+Depois disso, faça um redeploy.
 
 
 🧠 Observações Técnicas:
