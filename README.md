@@ -126,3 +126,6 @@ Projeto acadêmico com foco em CI/CD e deploy automatizado.
 📄 Licença:
 
 Este projeto é apenas para fins educacionais.
+
+
+Test de CI/CD realizadocom sucesso.
