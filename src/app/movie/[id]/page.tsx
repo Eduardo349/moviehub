@@ -1,21 +1,23 @@
-import { getMovieById } from "@/services/tmdb";
 import { notFound } from "next/navigation";
+import { getMovieById } from "@/services/tmdb";
 
-interface Props {
-  params: { id: string };
-}
+type Props = {
+  params: Promise<{ id: string }>;
+};
 
 export default async function MoviePage({ params }: Props) {
-  const movie = await getMovieById(params.id);
+  const { id } = await params;
+
+  const movie = await getMovieById(id);
 
   if (!movie) {
     notFound();
   }
 
   return (
-    <main className="p-6">
-      <h1 className="text-3xl font-bold">{movie.title}</h1>
-      <p className="mt-4 text-gray-300">{movie.overview}</p>
-    </main>
+    <div>
+      <h1>{movie.title}</h1>
+      <p>{movie.overview}</p>
+    </div>
   );
 }
