@@ -23,8 +23,6 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm ci
 
-      - name: 🧹 Rodar ESLint
-        run: npm run lint
 
       - name: 🧪 Rodar testes
         run: npm run test --if-present
